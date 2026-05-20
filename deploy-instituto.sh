@@ -5,32 +5,28 @@ set -euo pipefail
 
 # Variáveis
 REPO_PATH='/var/www/instituto-cassiane'
-IMAGE_NAME="instituto-cassiane:local"
+IMAGE_NAME="ghcr.io/davidsoncabista/institutocassiane:latest"
 CONTAINER_NAME="instituto-cassiane-prod"
 PORTA_HOST=3001
 
-echo '🚀 [PROD] Iniciando deploy com Build Local (Instituto Cassiane)...'
+echo '🚀 [PROD] Iniciando deploy com Imagem do GitHub (Instituto Cassiane)...'
 
-# 1. Sincronia de Configuração com o Git
-echo '🔐 Atualizando arquivos do repositório Git...'
+# 1. Sincronia de Configuração com o Git (Apenas para garantir arquivos como o .env)
+echo '🔐 Atualizando arquivos de configuração...'
 chown -R root:root $REPO_PATH
 cd $REPO_PATH
 git config --global --add safe.directory $REPO_PATH
 git fetch --all
 git reset --hard origin/main
 
-# Ajustando Dockerfile para usar npm install
-echo '🛠️ Ajustando Dockerfile para usar npm install...'
-sed -i 's/RUN npm ci/RUN npm install/g' Dockerfile
-
-# Reestabelece o arquivo .env
+# Reestabelece o arquivo .env caso não exista
 if [ ! -f .env ]; then
   echo "VITE_APP_ENV=production" > .env
 fi
 
-# 2. Build da Imagem Docker Localmente
-echo '📦 Iniciando a construção da imagem Docker...'
-docker build -t $IMAGE_NAME .
+# 2. Baixando a Imagem Docker Pública do GitHub (Sem necessidade de login)
+echo '📦 Baixando a imagem Docker mais recente do GitHub Packages...'
+docker pull $IMAGE_NAME
 
 # 3. Substituição do Container
 echo '🔄 Reiniciando serviço...'
@@ -49,4 +45,4 @@ docker run -d \
 echo '🧹 Limpando cache e imagens antigas...'
 docker image prune -f
 
-echo '✅ [PROD] Deploy com Build Local concluído com sucesso!'
+echo '✅ [PROD] Deploy com Imagem do GitHub concluído com sucesso!'

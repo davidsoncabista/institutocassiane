@@ -53,12 +53,11 @@ cd /var/www/instituto-cassiane
 
 O script faz:
 1. sincroniza o Git (`fetch/reset`)
-2. ajusta `Dockerfile` para `npm install`
-3. garante `.env` com `VITE_APP_ENV=production`
-4. build local da imagem `instituto-cassiane:local`
-5. recria container `instituto-cassiane-prod`
-6. publica em `3001:3001`
-7. limpa imagens antigas
+2. garante `.env` com `VITE_APP_ENV=production`
+3. pull da imagem `ghcr.io/davidsoncabista/institutocassiane:latest` (pública, sem login)
+4. recria container `instituto-cassiane-prod`
+5. publica em `3001:3001`
+6. limpa imagens antigas
 
 ## 5) Validar serviço
 
@@ -86,10 +85,9 @@ docker start instituto-cassiane-prod
 Rebuild manual (sem script):
 
 ```bash
-cd /var/www/instituto-cassiane
-docker build -t instituto-cassiane:local .
+docker pull ghcr.io/davidsoncabista/institutocassiane:latest
 docker rm -f instituto-cassiane-prod || true
-docker run -d --name instituto-cassiane-prod --restart always -p 3001:3001 --env-file /var/www/instituto-cassiane/.env instituto-cassiane:local
+docker run -d --name instituto-cassiane-prod --restart always -p 3001:3001 --env-file /var/www/instituto-cassiane/.env ghcr.io/davidsoncabista/institutocassiane:latest
 ```
 
 ## 7) Troubleshooting
