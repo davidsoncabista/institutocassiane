@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: "Poppins", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-brand-green: #408B77;
+  --color-brand-green-dark: #2A5D50;
+  --color-brand-green-light: #E6F3EF;
+  --color-brand-terracotta: #D8704D;
+  --color-brand-terracotta-dark: #BE5533;
+  --color-brand-terracotta-light: #FDF1ED;
+  --color-brand-ochre: #F5E5BA;
+  --color-brand-navy: #1B365D;
+  --color-brand-dark: #222B35;
+  --color-brand-bg: #FAF9F5;
+  --color-brand-muted: #606E7A;
+}
+
+html, body {
+  background-color: var(--color-brand-bg);
+  color: var(--color-brand-dark);
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+}
+
+/* Custom fade utility for interactive elements */
+.transition-custom {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
